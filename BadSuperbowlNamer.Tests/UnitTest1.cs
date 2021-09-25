@@ -70,6 +70,7 @@ namespace BadSuperbowlNamer.Tests
         }
 
         [Theory]
+        [InlineData(3549, "MMMDXLIX")]
         [InlineData(1, "I")]
         [InlineData(3, "III")]
         [InlineData(4, "IV")]
@@ -80,6 +81,52 @@ namespace BadSuperbowlNamer.Tests
 
             // Act
             string actualResult = translator.Translate(numberToTranslate);
+
+            // Assert
+            Assert.Equal(expectedResult, actualResult);
+        }
+        [Theory]
+        [InlineData(3549, 1000)]
+        [InlineData(1001, 1000)]
+        [InlineData(1000, 1000)]
+        [InlineData(901, 900)]
+        [InlineData(900, 900)]
+        [InlineData(51, 50)]
+        [InlineData(50, 50)]
+        [InlineData(41, 40)]
+        public void get_base_value(int number, int expectedResult)
+        {
+            // Arrange
+            var translator = new NumberTranslator();
+
+            // Act
+            int actualResult = translator.GetBaseValue(number);
+
+            // Assert
+            Assert.Equal(expectedResult, actualResult);
+        }
+
+        [Theory]
+        [InlineData(1000, "M")]
+        [InlineData(900, "CM")]
+        [InlineData(500, "D")]
+        [InlineData(400, "CD")]
+        [InlineData(100, "C")]
+        [InlineData(90, "XC")]
+        [InlineData(50, "L")]
+        [InlineData(40, "XL")]
+        [InlineData(10, "X")]
+        [InlineData(9, "IX")]
+        [InlineData(5, "V")]
+        [InlineData(4, "IV")]
+        [InlineData(1, "I")]
+        public void get_symbo(int number, string expectedResult)
+        {
+            // Arrange
+            var translator = new NumberTranslator();
+
+            // Act
+            string actualResult = translator.GetSymbol(number);
 
             // Assert
             Assert.Equal(expectedResult, actualResult);
