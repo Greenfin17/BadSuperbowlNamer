@@ -8,7 +8,54 @@ namespace BadSuperbowlNamer
 {
     public class NumberTranslator
     {
-        public string Translate(int numberToTranslate)
+
+        public string TranslateInline(int numberToTranslate)
+        {
+            var numeral = "";
+
+            numeral += new string('M', numberToTranslate / 1000);
+            numberToTranslate %= 1000;
+
+            numeral += numberToTranslate >= 900 ? "CM" : "";
+            numberToTranslate %= 900;
+
+            numeral += new string('D', numberToTranslate / 500);
+            numberToTranslate %= 500;
+
+            numeral += numberToTranslate >= 400 ? "CD" : "";
+            numberToTranslate %= 400;
+
+            numeral += new string('C', numberToTranslate / 100);
+            numberToTranslate %= 100;
+
+            numeral += numberToTranslate >= 90 ? "XC" : "";
+            numberToTranslate %= 90;
+
+            numeral += new string('L', numberToTranslate / 50);
+            numberToTranslate %= 50;
+
+            numeral += numberToTranslate >= 50 ? "XL" : "";
+            numberToTranslate %= 50;
+
+            numeral += new string('X', numberToTranslate / 10);
+            numberToTranslate %= 10;
+
+            numeral += numberToTranslate == 9 ? "IX" : "";
+            numberToTranslate %= 9;
+
+            numeral += new string('V', numberToTranslate / 5);
+            numberToTranslate %= 5;
+
+            numeral += numberToTranslate == 4 ? "IV" : "";
+            numberToTranslate %= 4;
+
+            numeral += new string('I', numberToTranslate);
+
+            return numeral;
+        }
+
+         
+        public string TranslateRecursive(int numberToTranslate)
         {
             StringBuilder returnStr = new StringBuilder();
             int baseValue = GetBaseValue(numberToTranslate);
@@ -24,11 +71,12 @@ namespace BadSuperbowlNamer
 
             if ( remainder > 0)
             {
-                returnStr.Append(Translate(remainder));
+                returnStr.Append(TranslateRecursive(remainder));
             }
             return returnStr.ToString();
 
         }
+        
         public int GetBaseValue(int number)
         {
             int returnVal = 0;

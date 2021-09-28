@@ -1,5 +1,6 @@
 using System;
 using Xunit;
+using BadSuperbowlNamer;
 
 namespace BadSuperbowlNamer.Tests
 {
@@ -19,7 +20,7 @@ namespace BadSuperbowlNamer.Tests
             var translator = new NumberTranslator();
 
             // Act -> the actual thing we are testing
-            string actualResult = translator.Translate(numberToTranslate);
+            string actualResult = translator.TranslateInline(numberToTranslate);
 
 
             // Assert -> lay out the expectations in such a way that it not met, exceptions are thrown.
@@ -48,7 +49,7 @@ namespace BadSuperbowlNamer.Tests
             var translator = new NumberTranslator();
 
             // Act
-            string actualResult = translator.Translate(numberToTranslate);
+            string actualResult = translator.TranslateInline(numberToTranslate);
 
             // Assert
             Assert.Equal(expectedResult, actualResult);
@@ -63,17 +64,16 @@ namespace BadSuperbowlNamer.Tests
             var translator = new NumberTranslator();
 
             // Act
-            string actualResult = translator.Translate(numberToTranslate);
+            string actualResult = translator.TranslateInline(numberToTranslate);
 
             // Assert
             Assert.Equal(expectedResult, actualResult);
         }
 
         [Theory]
-        [InlineData(1, "I")]
-        [InlineData(3, "III")]
-        [InlineData(4, "IV")]
+        [InlineData(1, "I"), InlineData(3, "III"), InlineData(4, "IV")]
         [InlineData(5, "V")]
+        [InlineData(7, "VII")]
         [InlineData(9, "IX")]
         [InlineData(12, "XII")]
         [InlineData(14, "XIV")]
@@ -95,13 +95,56 @@ namespace BadSuperbowlNamer.Tests
         [InlineData(1006, "MVI")]
         [InlineData(1023, "MXXIII")]
         [InlineData(3549, "MMMDXLIX")]
+
+        // public void given_a_number_it_is_translated_appropriately(int numberToTranslate, string expectedResult)
+        // theory has method parameters, whereas a fact test has has hard coded values within the test method.
         public void translate_to_roman_theory(int numberToTranslate, string expectedResult)
         {
             // Arrange
             var translator = new NumberTranslator();
 
             // Act
-            string actualResult = translator.Translate(numberToTranslate);
+            string actualResult = translator.TranslateInline(numberToTranslate);
+
+            // Assert
+            Assert.Equal(expectedResult, actualResult);
+        }
+
+        [Theory]
+        [InlineData(1, "I"), InlineData(3, "III"), InlineData(4, "IV")]
+        [InlineData(5, "V")]
+        [InlineData(7, "VII")]
+        [InlineData(9, "IX")]
+        [InlineData(12, "XII")]
+        [InlineData(14, "XIV")]
+        [InlineData(29, "XXIX")]
+        [InlineData(44, "XLIV")]
+        [InlineData(45, "XLV")]
+        [InlineData(68, "LXVIII")]
+        [InlineData(83, "LXXXIII")]
+        [InlineData(97, "XCVII")]
+        [InlineData(99, "XCIX")]
+        [InlineData(499, "CDXCIX")]
+        [InlineData(500, "D")]
+        [InlineData(501, "DI")]
+        [InlineData(649, "DCXLIX")]
+        [InlineData(798, "DCCXCVIII")]
+        [InlineData(891, "DCCCXCI")]
+        [InlineData(1000, "M")]
+        [InlineData(1004, "MIV")]
+        [InlineData(1006, "MVI")]
+        [InlineData(1023, "MXXIII")]
+        [InlineData(3549, "MMMDXLIX")]
+
+        // public void given_a_number_it_is_translated_appropriately(int numberToTranslate, string expectedResult)
+        // theory has method parameters, whereas a fact test has has hard coded values within the test method.
+        public void translate_to_roman_theory2(int numberToTranslate, string expectedResult)
+        {
+            // Arrange
+            var translator = new NumberTranslator();
+
+            // Act
+            string actualResult = translator.TranslateRecursive(numberToTranslate);
 
             // Assert
             Assert.Equal(expectedResult, actualResult);
